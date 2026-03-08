@@ -60,7 +60,6 @@ function ContentCard({ item, type, saved, onSave, onLike, liked }: any) {
   const [exp, setExp] = useState(false)
   const [hov, setHov] = useState(false)
   const cs = CAT_STYLE[type] || CAT_STYLE.Book
-  const platforms = OTT[type] || []
 
   return (
     <div
@@ -70,9 +69,15 @@ function ContentCard({ item, type, saved, onSave, onLike, liked }: any) {
       <div style={{ height: 3, background: `linear-gradient(90deg, ${cs.dot}, transparent)` }} />
       <div style={{ padding: '16px 16px 12px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-          <div style={{ width: 46, height: 46, borderRadius: 10, background: `linear-gradient(135deg, ${cs.dot}88, ${cs.dot}44)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: 'rgba(255,255,255,0.8)' }}>
-            {item.title.split(' ').slice(0,2).map((w: string) => w[0]).join('')}
-          </div>
+          {/* Poster or initials */}
+          {item.poster ? (
+            <img src={item.poster} alt={item.title}
+              style={{ width: 46, height: 64, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }} />
+          ) : (
+            <div style={{ width: 46, height: 46, borderRadius: 10, background: `linear-gradient(135deg, ${cs.dot}88, ${cs.dot}44)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: 'rgba(255,255,255,0.8)' }}>
+              {item.title?.split(' ').slice(0, 2).map((w: string) => w[0]).join('')}
+            </div>
+          )}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 5 }}>
             <MatchPill match={item.match} />
             <button onClick={() => onSave(item.title)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 15, opacity: saved ? 1 : 0.3, padding: 0 }}>🔖</button>
@@ -84,11 +89,13 @@ function ContentCard({ item, type, saved, onSave, onLike, liked }: any) {
         <div style={{ fontSize: 11, color: '#6B7280', marginBottom: 6 }}>{item.subtitle}</div>
         <div style={{ fontSize: 12, color: '#9490B5', lineHeight: 1.5, marginBottom: 8 }}>{item.description}</div>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10 }}>
-          {item.tags.map((t: string) => (
-            <span key={t} style={{ fontSize: 9, color: '#9490B5', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '2px 7px' }}>{t}</span>
-          ))}
-        </div>
+        {item.tags?.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10 }}>
+            {item.tags.map((t: string) => (
+              <span key={t} style={{ fontSize: 9, color: '#9490B5', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '2px 7px' }}>{t}</span>
+            ))}
+          </div>
+        )}
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
@@ -100,23 +107,61 @@ function ContentCard({ item, type, saved, onSave, onLike, liked }: any) {
           </button>
         </div>
 
+        {/* Expanded — OTT / Links */}
         {exp && (
           <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-            <div style={{ fontSize: 9, color: '#4B5563', letterSpacing: 1.5, textTransform: 'uppercase', fontWeight: 700, marginBottom: 7 }}>Available on</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-              {platforms.map((p: string) => (
-                <span key={p} style={{ background: 'rgba(123,92,246,0.08)', border: '1px solid rgba(123,92,246,0.2)', borderRadius: 6, padding: '3px 9px', fontSize: 10, color: '#9B7CFF', fontWeight: 500 }}>{p}</span>
-              ))}
-            </div>
-            {item.external_url && (
-              <a href={item.external_url} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: 8, fontSize: 11, color: '#7B5CF6', fontWeight: 600, textDecoration: 'none' }}>
-                Open link →
+            
+            {/* Platforms */}
+            {item.platforms?.length > 0 && (
+              <>
+                <div style={{ fontSize: 9, color: '#4B5563', letterSpacing: 1.5, textTransform: 'uppercase', fontWeight: 700, marginBottom: 7 }}>
+                  {type === 'Movie' || type === 'Documentary' ? 'Stream On' : type === 'Book' ? 'Read On' : 'Listen On'}
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 8 }}>
+                  {item.platforms.map((p: string) => (
+                    <span key={p} style={{ background: 'rgba(123,92,246,0.08)', border: '1px solid rgba(123,92,246,0.2)', borderRadius: 6, padding: '3px 9px', fontSize: 10, color: '#9B7CFF', fontWeight: 500 }}>{p}</span>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* Book links */}
+            {item.links && (
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 6 }}>
+                {item.links.google && (
+                  <a href={item.links.google} target="_blank" rel="noopener noreferrer"
+                    style={{ fontSize: 11, color: '#4285F4', fontWeight: 600, textDecoration: 'none', background: 'rgba(66,133,244,0.1)', border: '1px solid rgba(66,133,244,0.25)', borderRadius: 6, padding: '4px 10px' }}>
+                    📖 Google Books
+                  </a>
+                )}
+                {item.links.amazon && (
+                  <a href={item.links.amazon} target="_blank" rel="noopener noreferrer"
+                    style={{ fontSize: 11, color: '#FF9900', fontWeight: 600, textDecoration: 'none', background: 'rgba(255,153,0,0.1)', border: '1px solid rgba(255,153,0,0.25)', borderRadius: 6, padding: '4px 10px' }}>
+                    🛒 Amazon
+                  </a>
+                )}
+                {item.links.goodreads && (
+                  <a href={item.links.goodreads} target="_blank" rel="noopener noreferrer"
+                    style={{ fontSize: 11, color: '#F4C96A', fontWeight: 600, textDecoration: 'none', background: 'rgba(244,201,106,0.1)', border: '1px solid rgba(244,201,106,0.25)', borderRadius: 6, padding: '4px 10px' }}>
+                    ⭐ Goodreads
+                  </a>
+                )}
+              </div>
+            )}
+
+            {/* Movie / Podcast / Documentary watch link */}
+            {item.external_url && !item.links && (
+              <a href={item.external_url} target="_blank" rel="noopener noreferrer"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: 11, fontWeight: 700, textDecoration: 'none', background: type === 'Podcast' ? 'rgba(255,0,0,0.1)' : 'rgba(123,92,246,0.1)', border: `1px solid ${type === 'Podcast' ? 'rgba(255,0,0,0.25)' : 'rgba(123,92,246,0.25)'}`, borderRadius: 6, padding: '5px 12px', color: type === 'Podcast' ? '#FF4444' : '#9B7CFF' }}>
+                {type === 'Movie' || type === 'Documentary' ? '🎬 Watch Now' : type === 'Podcast' ? '▶ YouTube' : '🔗 Open'}
+                <span style={{ fontSize: 10 }}>→</span>
               </a>
             )}
           </div>
         )}
       </div>
 
+      {/* Action buttons */}
       <div style={{ padding: '0 16px 14px', marginTop: 'auto' }}>
         <div style={{ display: 'flex', gap: 6 }}>
           <button onClick={() => onLike(item)} style={{ flex: 1, background: liked ? 'rgba(239,68,68,0.1)' : 'rgba(123,92,246,0.1)', border: `1px solid ${liked ? 'rgba(239,68,68,0.3)' : 'rgba(123,92,246,0.25)'}`, borderRadius: 8, padding: '8px 0', color: liked ? '#FCA5A5' : '#9B7CFF', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'Outfit, sans-serif' }}>
@@ -161,8 +206,10 @@ export default function Dashboard() {
 
   const handleSearch = useCallback(async (q: string) => {
     if (!q.trim()) return
+    if (q === activeGenre) setActiveGenre('')
     setSearching(true)
     setResults(null)
+    setFormatFilter('All')
     setActiveGenre(q)
     try {
       const res = await fetch('/api/recommend', {
@@ -176,13 +223,16 @@ export default function Dashboard() {
         }),
       })
       const data = await res.json()
-      if (data.success) setResults(data.results)
+      if (data.success) {
+  console.log('RESULTS:', JSON.stringify(data.results).slice(0, 200))
+  setResults(data.results)
+}
     } catch (err) {
       console.error(err)
     } finally {
       setSearching(false)
     }
-  }, [interactions, tasteProfile, user])
+  }, [interactions, tasteProfile, user, activeGenre])
 
   const toggleSave = (title: string) =>
     setSavedItems(prev => prev.includes(title) ? prev.filter(x => x !== title) : [...prev, title])

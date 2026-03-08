@@ -12,12 +12,6 @@ export default function LandingPage() {
     if (!loading && isLoggedIn) router.push('/dashboard')
   }, [isLoggedIn, loading, router])
 
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', h)
-    return () => window.removeEventListener('scroll', h)
-  }, [])
-
   return (
     <div style={{ minHeight: '100vh', background: '#12122A', color: '#F0EFFF', fontFamily: "'Outfit', sans-serif", overflow: 'hidden' }}>
       <style>{`
@@ -59,41 +53,41 @@ export default function LandingPage() {
         {/* Floating cards left */}
         <div style={{ position: 'absolute', left: '5%', top: '15%', animation: 'float 6s ease-in-out infinite', '--r': '-12deg' } as React.CSSProperties}>
           <div style={{ background: 'rgba(20,18,50,0.9)', border: '1px solid rgba(123,92,246,0.3)', borderRadius: 16, padding: '12px', width: 160, backdropFilter: 'blur(20px)', transform: 'rotate(-12deg)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
-            <div style={{ height: 90, background: 'linear-gradient(135deg,#3B1F8C,#7B5CF6)', borderRadius: 10, marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 800, color: 'rgba(255,255,255,0.7)' }}>SA</div>
-            <div style={{ fontSize: 9, background: 'rgba(245,158,11,0.2)', color: '#FCD34D', borderRadius: 4, padding: '2px 6px', display: 'inline-block', marginBottom: 6 }}>Book</div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#F0EFFF' }}>The Stormlight Arc...</div>
-            <div style={{ fontSize: 10, color: '#9490B5' }}>Brandon Sanderson</div>
+            <img src="/Shawshank.jpg" alt="Shawshank" style={{ width: '100%', height: 90, objectFit: 'cover', borderRadius: 10, marginBottom: 10 }} />
+            <div style={{ fontSize: 9, background: 'rgba(245,158,11,0.2)', color: '#FCD34D', borderRadius: 4, padding: '2px 6px', display: 'inline-block', marginBottom: 6 }}>Movie</div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#F0EFFF' }}>The Shawshank Redeemption</div>
+            <div style={{ fontSize: 10, color: '#9490B5' }}>Crime/Drama</div>
             <div style={{ fontSize: 11, color: '#F59E0B', marginTop: 4 }}>★ 4.9</div>
           </div>
         </div>
 
-        <div style={{ position: 'absolute', left: '6%', top: '55%', animation: 'float 7s ease-in-out infinite', animationDelay: '1s' } as React.CSSProperties}>
-          <div style={{ background: 'rgba(20,18,50,0.9)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 16, padding: '12px', width: 155, backdropFilter: 'blur(20px)', transform: 'rotate(-8deg)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
-            <div style={{ height: 85, background: 'linear-gradient(135deg,#5B1D8C,#A855F7)', borderRadius: 10, marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, fontWeight: 800, color: 'rgba(255,255,255,0.7)' }}>KL</div>
-            <div style={{ fontSize: 9, background: 'rgba(139,92,246,0.2)', color: '#C4B5FD', borderRadius: 4, padding: '2px 6px', display: 'inline-block', marginBottom: 6 }}>Podcast</div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#F0EFFF' }}>The Knowledge Lab</div>
-            <div style={{ fontSize: 10, color: '#9490B5' }}>Science & Ed</div>
+        <div style={{ position: 'absolute', left: '6%', top: '55%', animation: 'float 7s ease-in-out infinite', '--r': '-15deg' } as React.CSSProperties}>
+          <div style={{ background: 'rgba(20,18,50,0.9)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 15, padding: '30px', width: 155, backdropFilter: 'blur(20px)', transform: 'rotate(-5deg)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+            <img src="/The_Fountain_Head.jpg" alt="Fountainhead" style={{ width: '100%', height: 85, objectFit: 'cover', objectPosition: 'center top', borderRadius: 10, marginBottom: 10 }} />
+            <div style={{ fontSize: 9, background: 'rgba(139,92,246,0.2)', color: '#C4B5FD', borderRadius: 4, padding: '2px 6px', display: 'inline-block', marginBottom: 6 }}>Book</div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#F0EFFF' }}>The Fountainhead </div>
+            <div style={{ fontSize: 10, color: '#9490B5' }}>Philosophical</div>
             <div style={{ fontSize: 11, color: '#F59E0B', marginTop: 4 }}>★ 4.8</div>
           </div>
         </div>
 
         {/* Floating cards right */}
-        <div style={{ position: 'absolute', right: '5%', top: '15%', animation: 'float 5s ease-in-out infinite', animationDelay: '0.5s' } as React.CSSProperties}>
-          <div style={{ background: 'rgba(20,18,50,0.9)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 16, padding: '12px', width: 165, backdropFilter: 'blur(20px)', transform: 'rotate(10deg)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
-            <div style={{ height: 95, background: 'linear-gradient(135deg,#6B1313,#DC2626)', borderRadius: 10, marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 800, color: 'rgba(255,255,255,0.7)' }}>DD</div>
-            <div style={{ fontSize: 9, background: 'rgba(239,68,68,0.2)', color: '#FCA5A5', borderRadius: 4, padding: '2px 6px', display: 'inline-block', marginBottom: 6 }}>Movie</div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#F0EFFF' }}>Dark Descent</div>
-            <div style={{ fontSize: 10, color: '#9490B5' }}>Director: Alex Reyes</div>
+        <div style={{ position: 'absolute', right: '5%', top: '15%', animation: 'float 5s ease-in-out infinite', '--r': '-15deg' } as React.CSSProperties}>
+          <div style={{ background: 'rgba(20,18,50,0.9)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 16, padding: '12px', width: 165, backdropFilter: 'blur(20px)', transform: 'rotate(30deg)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+            <img src="https://image.tmdb.org/t/p/w200/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" alt="Interstellar" style={{ width: '100%', height: 95, objectFit: 'cover', objectPosition: 'center 30%', borderRadius: 10, marginBottom: 10 }} />
+            <div style={{ fontSize: 9, background: 'rgba(239,68,68,0.2)', color: '#FCA5A5', borderRadius: 4, padding: '2px 6px', display: 'inline-block', marginBottom: 6 }}>Music</div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#F0EFFF' }}>"S.T.A.Y."</div>
+            <div style={{ fontSize: 10, color: '#9490B5' }}>Ambient Music</div>
             <div style={{ fontSize: 11, color: '#F59E0B', marginTop: 4 }}>★ 4.5</div>
           </div>
         </div>
 
-        <div style={{ position: 'absolute', right: '6%', top: '52%', animation: 'float 6.5s ease-in-out infinite', animationDelay: '1.5s' } as React.CSSProperties}>
-          <div style={{ background: 'rgba(20,18,50,0.9)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 16, padding: '12px', width: 158, backdropFilter: 'blur(20px)', transform: 'rotate(8deg)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
-            <div style={{ height: 88, background: 'linear-gradient(135deg,#2E0F6B,#8B5CF6)', borderRadius: 10, marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, fontWeight: 800, color: 'rgba(255,255,255,0.7)' }}>SN</div>
-            <div style={{ fontSize: 9, background: 'rgba(139,92,246,0.2)', color: '#C4B5FD', borderRadius: 4, padding: '2px 6px', display: 'inline-block', marginBottom: 6 }}>Podcast</div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#F0EFFF' }}>Signal & Noise</div>
-            <div style={{ fontSize: 10, color: '#9490B5' }}>Music & Culture</div>
+        <div style={{ position: 'absolute', right: '6%', top: '52%', animation: 'float 6.5s ease-in-out infinite', '--r': '-12deg' } as React.CSSProperties}>
+          <div style={{ background: 'rgba(20,18,50,0.9)', border: '1px solid rgba(139,92,246,0.3)', borderRadius: 16, padding: '12px', width: 158, backdropFilter: 'blur(20px)', transform: 'rotate(22deg)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+            <img src="/curry.jpg" alt="Podcast" style={{ width: '100%', height: 100, objectFit: 'cover', objectPosition: 'center 60%', borderRadius: 10, marginBottom: 10 }} />
+            <div style={{ fontSize: 9, background: 'rgba(230, 207, 131, 0.2)', color: '#FCD34D', borderRadius: 4, padding: '2px 6px', display: 'inline-block', marginBottom: 6 }}>Documentary</div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#F0EFFF' }}>Curry & Cyanide</div>
+            <div style={{ fontSize: 10, color: '#9490B5' }}>True Crime Documentaries</div>
             <div style={{ fontSize: 11, color: '#F59E0B', marginTop: 4 }}>★ 4.6</div>
           </div>
         </div>
