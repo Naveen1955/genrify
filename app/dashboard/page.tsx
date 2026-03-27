@@ -183,6 +183,7 @@ export default function Dashboard() {
   const [search, setSearch] = useState('')
   const [activeGenre, setActiveGenre] = useState('')
   const [results, setResults] = useState<Record<string, ContentItem[]> | null>(null)
+  const [industry, setIndustry] = useState('hollywood')
   const [searching, setSearching] = useState(false)
   const [savedItems, setSavedItems] = useState<string[]>([])
   const [likedItems, setLikedItems] = useState<string[]>([])
@@ -193,6 +194,11 @@ export default function Dashboard() {
   useEffect(() => {
     if (!authLoading && !user) router.push('/auth')
   }, [user, authLoading, router])
+useEffect(() => {
+  if (activeGenre) {
+    handleGenreClick(activeGenre)
+  }
+}, [industry])
 
   const tasteProfile = (() => {
     const freq: Record<string, number> = {}
@@ -216,11 +222,12 @@ export default function Dashboard() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          query: q,
-          history: interactions.slice(0, 50),
-          tasteProfile,
-          userId: user?.id,
-        }),
+  query: q,
+  industry: industry,
+  history: interactions.slice(0, 50),
+  tasteProfile,
+  userId: user?.id,
+}),
       })
       const data = await res.json()
       if (data.success) {
@@ -420,6 +427,10 @@ export default function Dashboard() {
                   ))}
                 </div>
               </div>
+
+              {/* Industry selector */}
+        <div style={{ marginBottom: 16 }}>
+</div>
 
               {/* Searching */}
               {searching && (
